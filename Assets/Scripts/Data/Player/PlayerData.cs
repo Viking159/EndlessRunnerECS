@@ -1,6 +1,6 @@
 ﻿namespace EndlessRunnerECS.Data.Player
 {
-    public struct PlayerData
+    public readonly struct PlayerData
     {
         public readonly float LaneChangeSpeed;
         public readonly float LaneWidth;
