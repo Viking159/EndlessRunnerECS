@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77c99d7e33580494eaa96e9bf75931e7, type: 3}
-  m_Name: PlayerConfig
+  m_Script: {fileID: 11500000, guid: 99d58c06159b17b419a27ba8e72fc4f0, type: 3}
+  m_Name: RoadConfig
   m_EditorClassIdentifier: 
-  <LaneChangeSpeed>k__BackingField: 30
-  <LaneWidth>k__BackingField: 4
+  <InitialBlocksCount>k__BackingField: 3
+  <RecycleZ>k__BackingField: 15
+  <StartZ>k__BackingField: 0
