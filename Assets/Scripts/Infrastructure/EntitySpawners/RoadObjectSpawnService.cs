@@ -1,4 +1,5 @@
-﻿using EndlessRunnerECS.ECS.Components;
+﻿using EndlessRunnerECS.Data.RoadObject;
+using EndlessRunnerECS.ECS.Components;
 using EndlessRunnerECS.Infrastructure.Pools;
 using EndlessRunnerECS.Views;
 using Leopotam.EcsLite;
@@ -9,9 +10,13 @@ namespace EndlessRunnerECS.Infrastructure.EntitySpawners
     public sealed class RoadObjectSpawnService : IEntitySpawnService
     {
         private readonly IPool<RoadObjectView> _pool;
+        private readonly RoadObjectData _data;
 
-        public RoadObjectSpawnService(IPool<RoadObjectView> pool) 
-            => _pool = pool;
+        public RoadObjectSpawnService(IPool<RoadObjectView> pool, RoadObjectData roadObjectData)
+        {
+            _pool = pool;
+            _data = roadObjectData;
+        }
 
         public int Spawn(EcsWorld world, Vector3 position)
         {
@@ -28,6 +33,10 @@ namespace EndlessRunnerECS.Infrastructure.EntitySpawners
 
             ref RoadObjectViewComponent viewComponent = ref world.GetPool<RoadObjectViewComponent>().Add(entity);
             viewComponent.View = view;
+
+            ref CollectableComponent collectable = ref world.GetPool<CollectableComponent>().Add(entity);
+            collectable.RadiusX = _data.TriggerRadiusX;
+            collectable.RadiusZ = _data.TriggerRadiusZ;
 
             world.GetPool<RoadObjectComponent>().Add(entity);
             world.GetPool<WorldScrollableTag>().Add(entity);

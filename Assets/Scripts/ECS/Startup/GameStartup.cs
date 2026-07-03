@@ -45,16 +45,17 @@ namespace EndlessRunnerECS.ECS.Startup
             _world = new EcsWorld();
             _systems = new EcsSystems(_world);
 
-            _roadBlockPool = new RandomRoadBlockPool( _roadBlockPrefabs, _roadBlocksParent, _roadBlocksPreloadCount);
-            _roadBlockSpawnService = new RoadBlockSpawnService(_roadBlockPool);
-
-            _roadObjectPool = new ViewPool<RoadObjectView>(_roadObjectPrefab, _roadObjectsParent, _roadObjectsPreloadCount);
-            _roadObjectSpawnService = new RoadObjectSpawnService(_roadObjectPool);
-
             _roadData = RoadDataMapper.Map(_roadConfig);
             _worldData = WorldDataMapper.Map(_worldConfig);
             _roadObjectData = RoadObjectDataMapper.Map(_roadObjectConfig);
             _playerData = PlayerDataMapper.Map(_playerConfig);
+
+            _roadBlockPool = new RandomRoadBlockPool( _roadBlockPrefabs, _roadBlocksParent, _roadBlocksPreloadCount);
+            _roadBlockSpawnService = new RoadBlockSpawnService(_roadBlockPool);
+
+            _roadObjectPool = new ViewPool<RoadObjectView>(_roadObjectPrefab, _roadObjectsParent, _roadObjectsPreloadCount);
+            _roadObjectSpawnService = new RoadObjectSpawnService(_roadObjectPool, _roadObjectData);
+
             RegisterSystems();
         }
 
@@ -73,6 +74,7 @@ namespace EndlessRunnerECS.ECS.Startup
 
         private void RegisterSystems() 
             => _systems
+                .Add(new ScoreInitSystem())
                 .Add(new PlayerInitSystem(_playerTransform, _playerData, _worldData))
                 .Add(new SceneScrollableInitSystem(_sceneScrollableViews))
                 .Add(new RoadInitSystem(_roadData, _roadBlockSpawnService))
@@ -86,6 +88,10 @@ namespace EndlessRunnerECS.ECS.Startup
                 .Add(new RoadBlockRecycleSystem(_roadData, _roadBlockPool))
                 .Add(new RoadBlockSpawnSystem(_roadData, _roadBlockSpawnService))
                 .Add(new RoadObjectSpawnSystem(_roadObjectData, _roadObjectSpawnService, _playerData.LaneWidth, _worldData))
+
+                .Add(new RoadObjectCollectSystem())
+                .Add(new RoadObjectCollectedSystem(_roadObjectPool))
+
                 .Add(new RoadObjectRecycleSystem(_roadObjectData, _roadObjectPool))
 
                 .Add(new TransformSyncSystem());
