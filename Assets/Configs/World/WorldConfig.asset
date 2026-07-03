@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d39746e05420d3949ae0a1ac893571f9, type: 3}
   m_Name: WorldConfig
   m_EditorClassIdentifier: 
-  <ScrollSpeed>k__BackingField: 8
+  <ScrollSpeed>k__BackingField: 16
   <MinLaneIndex>k__BackingField: -1
   <MaxLaneIndex>k__BackingField: 1
