@@ -75,6 +75,8 @@ namespace EndlessRunnerECS.ECS.Startup
             _world = null;
         }
 
+        //NOTE: Сначала обновляем инпут и движение, затем двигаем мир, после обрабатываем release/spawn,
+        //сбор, обновляем HUD, в конце синхронизируем трансформы
         private void RegisterSystems() 
             => _systems
                 .Add(new ScoreInitSystem())

@@ -5,6 +5,14 @@ using UnityEngine;
 
 namespace EndlessRunnerECS.ECS.Systems
 {
+    /// <summary>
+    /// Управляет смещением объектов в сторону игрока
+    /// </summary>
+    /// <remarks>
+    /// Игрок остается у координат (0, 0), иммитация движения игрока вперед производится за счет
+    /// движения мира к игроку. Реализовано для исключения возможных ошибок
+    /// при больших значениях координат.
+    /// </remarks>
     public sealed class WorldScrollSystem : IEcsInitSystem, IEcsRunSystem
     {
         private EcsWorld _world;

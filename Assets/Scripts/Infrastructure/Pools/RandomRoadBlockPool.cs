@@ -4,9 +4,21 @@ using UnityEngine;
 
 namespace EndlessRunnerECS.Infrastructure.Pools
 {
+    /// <summary>
+    /// Управляет получением случайного блока дороги
+    /// </summary>
+    /// <remarks>
+    /// Каждый префаб (тип дороги) имеет свой пул, что позволяет расширять разнообразие
+    /// дорог, но с сохранением работы через пул
+    /// </remarks>
     public sealed class RandomRoadBlockPool : IPool<RoadBlockView>
     {
         private readonly IPool<RoadBlockView>[] _pools;
+
+        /// <summary>
+        /// Словарь привязывает RoadBlockView с пулом, из которого его взяли
+        /// для корректного релиза объекта
+        /// </summary>
         private readonly Dictionary<RoadBlockView, IPool<RoadBlockView>> _instancePools = new();
 
         public RandomRoadBlockPool(RoadBlockView[] prefabs, Transform parent, int preloadCountPerPrefab)
