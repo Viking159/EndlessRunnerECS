@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace EndlessRunnerECS.Infrastructure.Pools
 {
-    public sealed class RandomRoadBlockPool : IObjectPool<RoadBlockView>
+    public sealed class RandomRoadBlockPool : IPool<RoadBlockView>
     {
-        private readonly IObjectPool<RoadBlockView>[] _pools;
-        private readonly Dictionary<RoadBlockView, IObjectPool<RoadBlockView>> _instancePools = new();
+        private readonly IPool<RoadBlockView>[] _pools;
+        private readonly Dictionary<RoadBlockView, IPool<RoadBlockView>> _instancePools = new();
 
         public RandomRoadBlockPool(RoadBlockView[] prefabs, Transform parent, int preloadCountPerPrefab)
         {
@@ -28,7 +28,7 @@ namespace EndlessRunnerECS.Infrastructure.Pools
 
         public void Release(RoadBlockView instance)
         {
-            if (!_instancePools.TryGetValue(instance, out IObjectPool<RoadBlockView> pool))
+            if (!_instancePools.TryGetValue(instance, out IPool<RoadBlockView> pool))
             {
                 Debug.LogWarning($"[{nameof(RandomRoadBlockPool)}]: Unable to find road block '{instance.name}' in pools.");
                 instance.gameObject.SetActive(false);

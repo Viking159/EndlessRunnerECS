@@ -1,17 +1,16 @@
 ﻿using EndlessRunnerECS.ECS.Components;
-using EndlessRunnerECS.Infrastructure.EntitySpawners;
 using EndlessRunnerECS.Infrastructure.Pools;
 using EndlessRunnerECS.Views;
 using Leopotam.EcsLite;
 using UnityEngine;
 
-namespace EndlessRunnerECS.ECS.Systems
+namespace EndlessRunnerECS.Infrastructure.EntitySpawners
 {
     public sealed class RoadBlockSpawnService : IEntitySpawnService
     {
-        private readonly IObjectPool<RoadBlockView> _pool;
+        private readonly IPool<RoadBlockView> _pool;
 
-        public RoadBlockSpawnService(IObjectPool<RoadBlockView> pool) => _pool = pool;
+        public RoadBlockSpawnService(IPool<RoadBlockView> pool) => _pool = pool;
 
         public int Spawn(EcsWorld world, Vector3 position)
         {

@@ -1,5 +1,6 @@
 ﻿using EndlessRunnerECS.Data.Player;
 using EndlessRunnerECS.Data.Road;
+using EndlessRunnerECS.Data.RoadObject;
 using EndlessRunnerECS.Data.World;
 using EndlessRunnerECS.ECS.Systems;
 using EndlessRunnerECS.Infrastructure.EntitySpawners;
@@ -22,20 +23,38 @@ namespace EndlessRunnerECS.ECS.Startup
         [SerializeField] private PlayerConfig _playerConfig;
         [SerializeField] private WorldConfig _worldConfig;
 
+        [SerializeField] private RoadObjectConfig _roadObjectConfig;
+        [SerializeField] private RoadObjectView _roadObjectPrefab;
+        [SerializeField] private Transform _roadObjectsParent;
+        [SerializeField] private int _roadObjectsPreloadCount = 1;
+
         private EcsWorld _world;
         private EcsSystems _systems;
 
-        private IObjectPool<RoadBlockView> _roadBlockPool;
+        private IPool<RoadBlockView> _roadBlockPool;
+        private IPool<RoadObjectView> _roadObjectPool;
         private IEntitySpawnService _roadBlockSpawnService;
+        private IEntitySpawnService _roadObjectSpawnService;
         private RoadData _roadData;
+        private WorldData _worldData;
+        private RoadObjectData _roadObjectData;
+        private PlayerData _playerData;
 
         private void Awake()
         {
             _world = new EcsWorld();
             _systems = new EcsSystems(_world);
+
             _roadBlockPool = new RandomRoadBlockPool( _roadBlockPrefabs, _roadBlocksParent, _roadBlocksPreloadCount);
             _roadBlockSpawnService = new RoadBlockSpawnService(_roadBlockPool);
+
+            _roadObjectPool = new ViewPool<RoadObjectView>(_roadObjectPrefab, _roadObjectsParent, _roadObjectsPreloadCount);
+            _roadObjectSpawnService = new RoadObjectSpawnService(_roadObjectPool);
+
             _roadData = RoadDataMapper.Map(_roadConfig);
+            _worldData = WorldDataMapper.Map(_worldConfig);
+            _roadObjectData = RoadObjectDataMapper.Map(_roadObjectConfig);
+            _playerData = PlayerDataMapper.Map(_playerConfig);
             RegisterSystems();
         }
 
@@ -54,17 +73,20 @@ namespace EndlessRunnerECS.ECS.Startup
 
         private void RegisterSystems() 
             => _systems
-                .Add(new PlayerInitSystem(_playerTransform, PlayerDataMapper.Map(_playerConfig)))
+                .Add(new PlayerInitSystem(_playerTransform, _playerData, _worldData))
                 .Add(new SceneScrollableInitSystem(_sceneScrollableViews))
                 .Add(new RoadInitSystem(_roadData, _roadBlockSpawnService))
+                .Add(new RoadObjectSpawnTimerInitSystem(_roadObjectData))
 
                 .Add(new PlayerInputSystem())
                 .Add(new VehicleLaneInputSystem())
                 .Add(new VehicleMovementSystem())
 
-                .Add(new WorldScrollSystem(WorldDataMapper.Map(_worldConfig)))
+                .Add(new WorldScrollSystem(_worldData))
                 .Add(new RoadBlockRecycleSystem(_roadData, _roadBlockPool))
                 .Add(new RoadBlockSpawnSystem(_roadData, _roadBlockSpawnService))
+                .Add(new RoadObjectSpawnSystem(_roadObjectData, _roadObjectSpawnService, _playerData.LaneWidth, _worldData))
+                .Add(new RoadObjectRecycleSystem(_roadObjectData, _roadObjectPool))
 
                 .Add(new TransformSyncSystem());
     }

@@ -15,9 +15,9 @@ namespace EndlessRunnerECS.ECS.Systems
         private EcsPool<RoadBlockViewComponent> _viewPool;
 
         private readonly RoadData _roadData;
-        private readonly IObjectPool<RoadBlockView> _pool;
+        private readonly IPool<RoadBlockView> _pool;
 
-        public RoadBlockRecycleSystem(RoadData roadData, IObjectPool<RoadBlockView> pool)
+        public RoadBlockRecycleSystem(RoadData roadData, IPool<RoadBlockView> pool)
         {
             _roadData = roadData;
             _pool = pool;

@@ -1,4 +1,5 @@
 ﻿using EndlessRunnerECS.Data.Player;
+using EndlessRunnerECS.Data.World;
 using EndlessRunnerECS.ECS.Components;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -9,11 +10,13 @@ namespace EndlessRunnerECS.ECS.Systems
     {
         private readonly Transform _playerTransform;
         private readonly PlayerData _playerData;
+        private readonly WorldData _worldData;
 
-        public PlayerInitSystem(Transform playerTransform, PlayerData playerData)
+        public PlayerInitSystem(Transform playerTransform, PlayerData playerData, WorldData worldData)
         {
             _playerTransform = playerTransform;
             _playerData = playerData;
+            _worldData = worldData;
         }
 
         public void Init(IEcsSystems systems)
@@ -40,8 +43,8 @@ namespace EndlessRunnerECS.ECS.Systems
         {
             laneMovement.CurrentLane = 0;
             laneMovement.TargetLane = 0;
-            laneMovement.MinLane = -1;
-            laneMovement.MaxLane = 1;
+            laneMovement.MinLane = _worldData.MinLaneIndex;
+            laneMovement.MaxLane = _worldData.MaxLaneIndex;
             laneMovement.LaneWidth = _playerData.LaneWidth;
             laneMovement.LaneChangeSpeed = _playerData.LaneChangeSpeed;
         }
