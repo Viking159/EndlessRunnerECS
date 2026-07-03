@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SpawnInterval>k__BackingField: 1
   <SpawnChance>k__BackingField: 0.4
-  <SpawnDistanceZ>k__BackingField: 80
+  <SpawnDistanceZ>k__BackingField: 60
   <RecycleZ>k__BackingField: -15
-  <TriggerRadiusX>k__BackingField: 1
-  <TriggerRadiusZ>k__BackingField: 1
+  <TriggerRadiusX>k__BackingField: 1.2
+  <TriggerRadiusZ>k__BackingField: 1.2
