@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace EndlessRunnerECS.Infrastructure.Pools
 {
-    public sealed class ViewPool<T> : IObjectPool<T> where T : Component
+    public sealed class ViewPool<T> : IPool<T> where T : Component
     {
         private readonly T _prefab;
         private readonly Transform _parent;
