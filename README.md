@@ -4,6 +4,8 @@
 
 ![Gameplay demo](demo/Demo.gif)
 
+Проект можно открыть в Unity 2021.3.45 или скачать сборку под Windows в разделе Releases.
+
 ---
 
 # Стек
