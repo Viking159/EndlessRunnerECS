@@ -35,6 +35,8 @@ namespace EndlessRunnerECS.ECS.Systems
         public void Run(IEcsSystems systems)
         {
             int count = 0;
+            //NOTE: farthestEndZ определяет самую дальнюю точку дороги от игрока, считается по активным блокам,
+            //что позволяет независеть от порядка entity в ECS фильтре
             float farthestEndZ = _roadData.StartZ;
 
             foreach (int entity in _filter)

@@ -52,6 +52,9 @@ namespace EndlessRunnerECS.ECS.Systems
             }
         }
 
+        /// <summary>
+        /// Быстрое определение пересечения по X-Z, без использования тяжелых функций и физики
+        /// </summary>
         private bool QuickPositionCrossCheck(Vector3 v1, Vector3 v2, float radiusX, float radiusZ)
             => Mathf.Abs(v1.x - v2.x) <= radiusX && Mathf.Abs(v1.z - v2.z) <= radiusZ;
     }
