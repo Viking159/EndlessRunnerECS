@@ -42,7 +42,6 @@ namespace EndlessRunnerECS.ECS.Systems
                 {
                     ref ScoreComponent score = ref _scorePool.Get(scoreEntity);
                     score.Value++;
-                    Debug.Log($"Score updated: {score.Value}");
                     break;
                 }
 

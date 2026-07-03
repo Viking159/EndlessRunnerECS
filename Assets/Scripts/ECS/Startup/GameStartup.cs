@@ -3,6 +3,7 @@ using EndlessRunnerECS.Data.Road;
 using EndlessRunnerECS.Data.RoadObject;
 using EndlessRunnerECS.Data.World;
 using EndlessRunnerECS.ECS.Systems;
+using EndlessRunnerECS.ECS.Systems.HUD;
 using EndlessRunnerECS.Infrastructure.EntitySpawners;
 using EndlessRunnerECS.Infrastructure.Pools;
 using EndlessRunnerECS.Views;
@@ -27,6 +28,8 @@ namespace EndlessRunnerECS.ECS.Startup
         [SerializeField] private RoadObjectView _roadObjectPrefab;
         [SerializeField] private Transform _roadObjectsParent;
         [SerializeField] private int _roadObjectsPreloadCount = 1;
+
+        [SerializeField] private ScoreHUDView _scoreView;
 
         private EcsWorld _world;
         private EcsSystems _systems;
@@ -93,7 +96,7 @@ namespace EndlessRunnerECS.ECS.Startup
                 .Add(new RoadObjectCollectedSystem(_roadObjectPool))
 
                 .Add(new RoadObjectRecycleSystem(_roadObjectData, _roadObjectPool))
-
+                .Add(new ScoreHUDUpdateSystem(_scoreView))
                 .Add(new TransformSyncSystem());
     }
 }
