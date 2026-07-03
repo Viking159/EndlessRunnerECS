@@ -48,8 +48,7 @@ namespace EndlessRunnerECS.ECS.Systems
                     }
                     _collectRequestPool.Add(roadObjectEntity);
                 }
-
-                break;
+                return;
             }
         }
 
