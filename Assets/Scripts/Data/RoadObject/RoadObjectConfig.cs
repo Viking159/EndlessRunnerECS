@@ -16,5 +16,11 @@ namespace EndlessRunnerECS.Data.RoadObject
 
         [field: SerializeField]
         public float RecycleZ { get; private set; } = -15f;
+
+        [field: SerializeField, Min(RoadObjectDataMapper.MIN_TRIGGER_RADIUS)]
+        public float TriggerRadiusX { get; private set; } = 1f;
+
+        [field: SerializeField, Min(RoadObjectDataMapper.MIN_TRIGGER_RADIUS)]
+        public float TriggerRadiusZ { get; private set; } = 1f;
     }
 }
